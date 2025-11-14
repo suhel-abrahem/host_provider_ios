@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,10 +34,24 @@ class _HomePagePageState extends State<HomePagePage> {
             IconButton(
               onPressed: () {},
               icon: Icon(
-                Icons.notifications_none,
+                CupertinoIcons.bell,
                 size: 24.sp,
                 color: Theme.of(context).colorScheme.onBackground,
               ),
+            ),
+            Builder(
+              builder: (builderContext) {
+                return IconButton(
+                  onPressed: () {
+                    Scaffold.of(builderContext).openDrawer();
+                  },
+                  icon: Icon(
+                    CupertinoIcons.bars,
+                    size: 24.sp,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                );
+              }
             ),
           ],
           automaticallyImplyLeading: false,

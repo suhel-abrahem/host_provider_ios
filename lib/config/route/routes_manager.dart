@@ -25,7 +25,7 @@ import '../../core/resource/main_page/main_page.dart';
 import '../../features/booking_page/presentation/pages/booking_page_page.dart';
 import '../../features/profile_page/domain/entities/profile_entity.dart';
 import '../../features/profile_page/presentation/pages/account_page_page.dart';
-
+String? currentPath=RoutesPath.homePage;
 class RoutesName {
   static String homePage = "homePage";
   static String categoriesPage = "categoriesPage";
@@ -64,6 +64,7 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 GoRouter goRouter = GoRouter(
   observers: [RouteTracker()],
   redirect: (context, state) {
+    currentPath = state.uri.toString();
     print("Current route: ${state.uri.toString()}");
     if (getItInstance<AppPreferences>().isFirstUse() == false) {
       return RoutesPath.firstUsePage;
@@ -88,10 +89,15 @@ GoRouter goRouter = GoRouter(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color.fromARGB(255, 35, 89, 116).withValues(alpha: 0.9),
-                Color.fromARGB(255, 11, 56, 102).withValues(alpha: 0.8),
-                Color.fromARGB(255, 4, 38, 75),
-              ],
+              if(getItInstance<AppPreferences>().getAppTheme() ?? false) ...[
+                const Color.fromARGB(255, 32, 32, 32).withValues(alpha: 0.9),
+                const Color.fromARGB(255, 0, 32, 55).withValues(alpha: 0.8),
+                const Color.fromARGB(255, 2, 92, 97),
+              ] else ...[
+              const Color.fromARGB(255, 195, 199, 198).withValues(alpha: 0.9),
+              const Color.fromARGB(255, 14, 125, 204).withValues(alpha: 0.8),
+                const Color.fromARGB(255, 2, 145, 152),]
+            ],
               stops: const [0.0, 0.5, 1.0],
             ),
           ),

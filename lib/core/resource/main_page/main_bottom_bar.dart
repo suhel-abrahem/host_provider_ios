@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
@@ -60,26 +61,26 @@ class _MainBottomBarState extends State<MainBottomBar> {
       unselectedItemColor: Theme.of(context).textTheme.labelLarge?.color,
       items: [
         BottomNavigationBarItem(
-          icon: const Icon(Icons.home_outlined),
-          activeIcon: const Icon(Icons.home),
+          icon: const Icon(CupertinoIcons.home),
+          activeIcon: const Icon(CupertinoIcons.home),
           label: LocaleKeys.homePage_label.tr(),
           tooltip: LocaleKeys.homePage_title.tr(),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.calendar_today_outlined),
+          icon: const Icon(CupertinoIcons.calendar_today),
           activeIcon: const Icon(Icons.calendar_today),
           label: LocaleKeys.bookingPage_label.tr(),
           tooltip: LocaleKeys.bookingPage_title.tr(),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.miscellaneous_services_outlined),
-          activeIcon: const Icon(Icons.miscellaneous_services),
+          icon: const Icon(CupertinoIcons.square_grid_2x2),
+          activeIcon: const Icon(CupertinoIcons.square_grid_2x2),
           label: LocaleKeys.myServicesPage_label.tr(),
           tooltip: LocaleKeys.myServicesPage_title.tr(),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.person_outline),
-          activeIcon: const Icon(Icons.person),
+          icon: const Icon(CupertinoIcons.person),
+          activeIcon: const Icon(CupertinoIcons.person),
           label: LocaleKeys.profilePage_label.tr(),
         ),
       ],

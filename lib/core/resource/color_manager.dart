@@ -17,7 +17,7 @@ class ColorManager {
       });
 
   // Primary Colors
-  static const Color primaryColor = Color.fromARGB(255, 31, 153, 209);
+  static const Color primaryColor = Colors.blue;
   static Color primaryColorLight = primaryColor.withOpacity(0.25);
 
   // Accent Colors
