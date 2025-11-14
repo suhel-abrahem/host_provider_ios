@@ -72,9 +72,9 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SetServiceBloc>(
-          create: (context) =>
-              getItInstance<SetServiceBloc>()..add(SetServiceEvent.started()),
-        
+      create: (context) =>
+          getItInstance<SetServiceBloc>()..add(SetServiceEvent.started()),
+
       child: Builder(
         builder: (context) {
           return BlocListener<SetServiceBloc, SetServiceState>(
@@ -111,7 +111,8 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                 context.pushNamed(RoutesName.myServicesPage);
               } else if (state is SetServiceStateSetServiceStateAlreadyExist) {
                 showMessage(
-                  message: LocaleKeys.categoryServices_serviceIsAlreadyAdded.tr(),
+                  message: LocaleKeys.categoryServices_serviceIsAlreadyAdded
+                      .tr(),
                   context: context,
                 );
               } else if (state is SetServiceStateSetError) {
@@ -122,6 +123,7 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
               }
             },
             child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
               decoration: BoxDecoration(
                 // boxShadow: [
                 //   BoxShadow(
@@ -135,15 +137,12 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: Center(
-                      child: ImageWidget(
-                        imageUrl: widget.serviceEntity?.image ?? "",
-                        width: 50.w,
-                        height: 50.h,
-                        errorIconSize: 32.sp,
-                      ),
+                  Center(
+                    child: ImageWidget(
+                      imageUrl: widget.serviceEntity?.image ?? "",
+                      width: 50.w,
+                      height: 50.h,
+                      errorIconSize: 32.sp,
                     ),
                   ),
                   Expanded(
@@ -152,9 +151,12 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                       children: [
                         Text(
                           widget.serviceEntity?.service?["name"] ?? "",
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            fontFamily: FontConstants.fontFamily(context.locale),
-                          ),
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                fontFamily: FontConstants.fontFamily(
+                                  context.locale,
+                                ),
+                              ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -165,7 +167,8 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                 vertical: 8.h,
                               ),
                               decoration: BoxDecoration(
-                                color: (widget.serviceEntity?.is_active ?? false)
+                                color:
+                                    (widget.serviceEntity?.is_active ?? false)
                                     ? Theme.of(context).colorScheme.primary
                                     : Theme.of(context).disabledColor,
                                 borderRadius: BorderRadius.circular(13.r),
@@ -206,12 +209,15 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                             ..add(SetServiceEvent.started()),
                       child:
                           PopupMenuButton<String>(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.primaryContainer.withValues(alpha: 0.9),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primaryContainer
+                                .withValues(alpha: 0.9),
                             icon: Icon(
                               Icons.more_vert,
-                              color: Theme.of(context).textTheme.labelLarge?.color,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.labelLarge?.color,
                               size: 26.sp,
                             ),
                             onSelected: (value) {
@@ -228,14 +234,19 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                           price: widget.serviceEntity?.price,
                                           id: widget.serviceEntity?.id,
                                           is_active:
-                                              !(widget.serviceEntity?.is_active ??
+                                              !(widget
+                                                      .serviceEntity
+                                                      ?.is_active ??
                                                   false),
                                         ),
                                   );
-                                  if (setServiceModel?.serviceModel?.is_active ==
+                                  if (setServiceModel
+                                          ?.serviceModel
+                                          ?.is_active ==
                                       null) {
                                     setServiceModel = setServiceModel?.copyWith(
-                                      serviceModel: setServiceModel?.serviceModel
+                                      serviceModel: setServiceModel
+                                          ?.serviceModel
                                           ?.copyWith(is_active: false),
                                     );
                                   }
@@ -254,14 +265,19 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                               widget.serviceEntity?.service_id,
                                           id: widget.serviceEntity?.id,
                                           is_active:
-                                              !(widget.serviceEntity?.is_active ??
+                                              !(widget
+                                                      .serviceEntity
+                                                      ?.is_active ??
                                                   false),
                                         ),
                                   );
-                                  if (setServiceModel?.serviceModel?.is_active ==
+                                  if (setServiceModel
+                                          ?.serviceModel
+                                          ?.is_active ==
                                       null) {
                                     setServiceModel = setServiceModel?.copyWith(
-                                      serviceModel: setServiceModel?.serviceModel
+                                      serviceModel: setServiceModel
+                                          ?.serviceModel
                                           ?.copyWith(is_active: false),
                                     );
                                   }
@@ -279,7 +295,7 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                 child: Row(
                                   children: [
                                     const Icon(CupertinoIcons.pencil_circle),
-          
+
                                     Padding(
                                       padding: EdgeInsets.symmetric(
                                         horizontal: 12.w,
@@ -302,7 +318,8 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                         horizontal: 12.w,
                                       ),
                                       child: Text(
-                                        LocaleKeys.myServicesPage_toggleStatus.tr(),
+                                        LocaleKeys.myServicesPage_toggleStatus
+                                            .tr(),
                                       ),
                                     ),
                                   ],
@@ -312,7 +329,10 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                 value: 'delete',
                                 child: Row(
                                   children: [
-                                    const Icon(CupertinoIcons.delete, color: Colors.red),
+                                    const Icon(
+                                      CupertinoIcons.delete,
+                                      color: Colors.red,
+                                    ),
                                     const SizedBox(width: 8),
                                     Padding(
                                       padding: EdgeInsets.symmetric(
@@ -330,9 +350,10 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                             frosted: true,
                             blurX: 18,
                             blurY: 18,
-                            tintColor: Theme.of(
-                              context,
-                            ).colorScheme.primaryContainer.withValues(alpha: 0.9),
+                            tintColor: Theme.of(context)
+                                .colorScheme
+                                .primaryContainer
+                                .withValues(alpha: 0.9),
                             clipBorderRadius: BorderRadius.circular(12.r),
                             border: Theme.of(context).defaultBorderSide,
                           ),
@@ -342,7 +363,7 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
               ),
             ),
           );
-        }
+        },
       ),
     );
   }
@@ -360,11 +381,11 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
             ),
             backgroundColor: Colors.transparent,
             title: Text(
-                          widget.serviceEntity?.service?["name"] ?? "",
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            fontFamily: FontConstants.fontFamily(context.locale),
-                          ),
-                        ),
+              widget.serviceEntity?.service?["name"] ?? "",
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                fontFamily: FontConstants.fontFamily(context.locale),
+              ),
+            ),
             scrollable: true,
             content: Form(
               key: setServiceFormKey,
