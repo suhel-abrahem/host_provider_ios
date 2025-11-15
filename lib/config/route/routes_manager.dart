@@ -25,7 +25,11 @@ import '../../core/resource/main_page/main_page.dart';
 import '../../features/booking_page/presentation/pages/booking_page_page.dart';
 import '../../features/profile_page/domain/entities/profile_entity.dart';
 import '../../features/profile_page/presentation/pages/account_page_page.dart';
-String? currentPath=RoutesPath.homePage;
+import '../../features/profile_page/presentation/pages/help_page_page.dart';
+import '../../features/profile_page/presentation/pages/setting_page_page.dart';
+
+String? currentPath = RoutesPath.homePage;
+
 class RoutesName {
   static String homePage = "homePage";
   static String categoriesPage = "categoriesPage";
@@ -41,6 +45,8 @@ class RoutesName {
   static String otpPage = "otpPage";
   static String categoryServicesPage = "categoryServicesPage";
   static String accountPage = "accountPage";
+  static String settingsPage = "settingsPage";
+  static String helpPage = "helpPage";
 }
 
 class RoutesPath {
@@ -58,6 +64,8 @@ class RoutesPath {
   static String categoryServicesPage = "/categoryServicesPage/:categoryEntity";
   static String serviceInfoPage = "/serviceInfoPage/:serviceId";
   static String accountPage = "/accountPage";
+  static String settingsPage = "/settingsPage";
+  static String helpPage = "/helpPage";
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -89,15 +97,10 @@ GoRouter goRouter = GoRouter(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-              if(getItInstance<AppPreferences>().getAppTheme() ?? false) ...[
-                const Color.fromARGB(255, 32, 32, 32).withValues(alpha: 0.9),
-                const Color.fromARGB(255, 0, 32, 55).withValues(alpha: 0.8),
-                const Color.fromARGB(255, 2, 92, 97),
-              ] else ...[
-              const Color.fromARGB(255, 195, 199, 198).withValues(alpha: 0.9),
-              const Color.fromARGB(255, 14, 125, 204).withValues(alpha: 0.8),
-                const Color.fromARGB(255, 2, 145, 152),]
-            ],
+                const Color.fromARGB(255, 35, 89, 116).withValues(alpha: 0.9),
+                Color.fromARGB(255, 11, 56, 102).withValues(alpha: 0.8),
+                Color.fromARGB(255, 4, 38, 75),
+              ],
               stops: const [0.0, 0.5, 1.0],
             ),
           ),
@@ -246,6 +249,26 @@ GoRouter goRouter = GoRouter(
               pageBuilder: (context, state) {
                 return _customTransitionPage(
                   child: AccountPagePage(),
+                  state: state,
+                );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.settingPage,
+              name: RoutesName.settingPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: SettingPagePage(),
+                  state: state,
+                );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.helpPage,
+              name: RoutesName.helpPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: HelpPagePage(),
                   state: state,
                 );
               },
