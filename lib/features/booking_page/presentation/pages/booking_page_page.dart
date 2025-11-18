@@ -74,14 +74,29 @@ class _BookingPagePageState extends State<BookingPagePage>
 
   @override
   void initState() {
+    super.initState();
+
+    initialIndex = widget.initialIndex ?? 0;
+
     tabController = TabController(
       length: 6,
       vsync: this,
-      initialIndex: widget.initialIndex ?? 0,
+      initialIndex: initialIndex,
       animationDuration: Duration(milliseconds: 300),
     );
 
-    super.initState();
+    // Listen to tab changes
+    tabController!.addListener(() {
+      if (!tabController!.indexIsChanging) {
+        selectedIndex = tabController!.index;
+        _onTabIndexChanged(selectedIndex ?? 0, context: context);
+      }
+    });
+
+    // Trigger the first page load manually
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _onTabIndexChanged(initialIndex, context: context);
+    });
   }
 
   @override
@@ -141,8 +156,8 @@ class _BookingPagePageState extends State<BookingPagePage>
                           ),
                         ).asGlass(
                           frosted: true,
-                          blurX: 50,
-                          blurY: 50,
+                          blurX: 8,
+                          blurY: 8,
                           tintColor: Theme.of(
                             context,
                           ).colorScheme.primaryContainer.withValues(alpha: 0.9),
@@ -162,8 +177,8 @@ class _BookingPagePageState extends State<BookingPagePage>
                     ),
                   ).asGlass(
                     frosted: true,
-                    blurX: 50,
-                    blurY: 50,
+                    blurX: 8,
+                    blurY: 8,
                     tintColor: Theme.of(
                       context,
                     ).colorScheme.primaryContainer.withValues(alpha: 0.9),
@@ -181,8 +196,8 @@ class _BookingPagePageState extends State<BookingPagePage>
                     ),
                   ).asGlass(
                     frosted: true,
-                    blurX: 50,
-                    blurY: 50,
+                    blurX: 8,
+                    blurY: 8,
                     tintColor: Theme.of(
                       context,
                     ).colorScheme.primaryContainer.withValues(alpha: 0.9),
@@ -200,8 +215,8 @@ class _BookingPagePageState extends State<BookingPagePage>
                     ),
                   ).asGlass(
                     frosted: true,
-                    blurX: 50,
-                    blurY: 50,
+                    blurX: 8,
+                    blurY: 8,
                     tintColor: Theme.of(
                       context,
                     ).colorScheme.primaryContainer.withValues(alpha: 0.9),
@@ -219,8 +234,8 @@ class _BookingPagePageState extends State<BookingPagePage>
                     ),
                   ).asGlass(
                     frosted: true,
-                    blurX: 50,
-                    blurY: 50,
+                    blurX: 8,
+                    blurY: 8,
                     tintColor: Theme.of(
                       context,
                     ).colorScheme.primaryContainer.withValues(alpha: 0.9),
@@ -238,8 +253,8 @@ class _BookingPagePageState extends State<BookingPagePage>
                     ),
                   ).asGlass(
                     frosted: true,
-                    blurX: 50,
-                    blurY: 50,
+                    blurX: 8,
+                    blurY: 8,
                     tintColor: Theme.of(
                       context,
                     ).colorScheme.primaryContainer.withValues(alpha: 0.9),

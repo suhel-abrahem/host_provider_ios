@@ -103,7 +103,9 @@
     "pendingBookings": "بۆکینگەکانی چاوەڕوان",
     "completedBookings": "بۆکینگەکانی تەواوکراو",
     "annualTotal": "کۆی ساڵانە",
-    "annualStatistics": "ئامارەکانی ساڵانە"
+    "annualStatistics": "ئامارەکانی ساڵانە",
+    "revenue": "داهات",
+    "bookings": "بۆکینگەکان"
   },
   "bookingPage": {
     "title": "پەیجی ئاراستەکردن",
@@ -123,7 +125,8 @@
     "noCancel": "نەخێر، هەڵبوەشێنەوە",
     "noBookingsAvailable": "هیچ ئاراستەکردنێک بوونی نییە",
     "startTime": "کاتژمێری دەست پێکردن",
-    "endTime": "کاتژمێری کۆتایی"
+    "endTime": "کاتژمێری کۆتایی",
+    "serviceImages": "وێنەکانی خزمەتگوزاری"
   },
   "profilePage": {
     "title": "پەیجی پڕۆفایل",
@@ -178,7 +181,10 @@
     "signOutOfYourAccount": "چوونە دەرەوە لە ئەژمارەکەت",
     "languageChangedSuccessfully": "زمان بە سەرکەوتوویی گۆڕدرا",
     "themeChangedSuccessfully": "مۆدێل بە سەرکەوتوویی گۆڕدرا",
-    "languagesIspeak": "زمانەکانم"
+    "languagesIspeak": "زمانەکانم",
+    "message": "پەیام",
+    "profileImage": "وێنەی پڕۆفایل",
+    "dob": "ڕۆژی لەدایکبوون"
   },
   "myServicesPage": {
     "title": "شاشەی خزمەتگوزاریەکانم",

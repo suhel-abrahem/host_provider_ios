@@ -10,6 +10,7 @@ import 'package:hosta_provider/config/app/app_preferences.dart';
 import 'package:hosta_provider/core/dependencies_injection.dart';
 import 'package:hosta_provider/core/resource/image_widget.dart';
 import 'package:hosta_provider/core/resource/main_page/drawer_button.dart';
+import 'package:hosta_provider/features/profile_page/domain/entities/profile_entity.dart';
 import 'package:hosta_provider/generated/locale_keys.g.dart';
 
 import '../../../config/route/routes_manager.dart';
@@ -35,12 +36,31 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   String? selectedLanguage;
   bool? isDarkTheme = false;
-  LoginStateEntity? userInfo;
+  ProfileModel profileModel = ProfileModel();
+  ProfileEntity? userInfo;
+  bool isUserInfoLoading = false;
   @override
   void initState() {
     isDarkTheme = getItInstance<AppPreferences>().getAppTheme();
-    userInfo = getItInstance<AppPreferences>().getUserInfo();
+
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomDrawer oldWidget) {
+    profileModel = profileModel.copyWith(
+      acceptLanguage: Helper.getCountryCode(context),
+    );
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    profileModel = profileModel.copyWith(
+      acceptLanguage: Helper.getCountryCode(context),
+    );
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -61,46 +81,111 @@ class _CustomDrawerState extends State<CustomDrawer> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(vertical: 30.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CircleAvatar(
-                    radius: 30.r,
-                    child: ImageWidget(imageUrl: "assets/images/logo.png"),
-                  ),
-                  SizedBox(
-                    width: 150.w,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            userInfo?.user["name"] ?? "",
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(
-                                  fontFamily: FontConstants.fontFamily(
-                                    context.locale,
+              child: BlocProvider<GetProfileBloc>(
+                create: (context) => getItInstance<GetProfileBloc>()
+                  ..add(GetProfileEvent.getProfile(profileModel: profileModel)),
+                child: BlocListener<GetProfileBloc, GetProfileState>(
+                  listener: (context, state) {
+                    if (state is GetProfileStateLoaded) {
+                      setState(() {
+                        userInfo = state.profileEntity;
+                        isUserInfoLoading = false;
+                      });
+                    } else if (state is GetProfileStateLoading) {
+                      setState(() {
+                        isUserInfoLoading = true;
+                      });
+                    } else if (state is GetProfileStateNoInternet) {
+                      showMessage(
+                        context: context,
+                        message: LocaleKeys.common_noInternetPullDown.tr(),
+                      );
+                      setState(() {
+                        isUserInfoLoading = false;
+                      });
+                    } else if (state is GetProfileStateUnauthorized) {
+                      getItInstance<AppPreferences>().setUserInfo(
+                        loginStateEntity: LoginStateEntity(),
+                      );
+                      setState(() {
+                        isUserInfoLoading = false;
+                      });
+                      context.pushNamed(RoutesName.loginPage);
+                    } else {
+                      showMessage(
+                        context: context,
+                        message: LocaleKeys.common_error.tr(),
+                      );
+                      setState(() {
+                        isUserInfoLoading = false;
+                      });
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CircleAvatar(
+                        radius: 30.r,
+                        child: isUserInfoLoading
+                            ? CircularProgressIndicator()
+                            : ClipOval(
+                                child: ImageWidget(
+                                  errorWidget: Icon(
+                                    Icons.account_circle,
+                                    size: 60.sp,
+                                    color: Theme.of(
+                                      context,
+                                    ).textTheme.labelLarge?.color,
                                   ),
+                                  imageUrl: userInfo?.avatar ?? "",
                                 ),
-                          ),
-                        ),
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            userInfo?.user["email"] ?? "",
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(
-                                  fontFamily: FontConstants.fontFamily(
-                                    context.locale,
+                              ),
+                      ),
+                      SizedBox(
+                        width: 150.w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            isUserInfoLoading
+                                ? LinearProgressIndicator()
+                                : FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      userInfo?.name ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
+                                            fontFamily:
+                                                FontConstants.fontFamily(
+                                                  context.locale,
+                                                ),
+                                          ),
+                                    ),
                                   ),
-                                ),
-                          ),
+                            isUserInfoLoading
+                                ? LinearProgressIndicator()
+                                : FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      userInfo?.email ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
+                                            fontFamily:
+                                                FontConstants.fontFamily(
+                                                  context.locale,
+                                                ),
+                                          ),
+                                    ),
+                                  ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
             Padding(
@@ -128,7 +213,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             DrawerButtonWidget(
               selected: currentPath?.endsWith(RoutesPath.bookingPage),
               title: LocaleKeys.bookingPage_title.tr(),
-              icon: Icons.calendar_month,
+              icon: CupertinoIcons.calendar,
               onPressed: () {
                 context.push(RoutesPath.bookingPage);
               },
@@ -232,8 +317,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             },
                             child: Icon(
                               (isDarkTheme ?? false)
-                                  ? Icons.dark_mode
-                                  : Icons.light_mode,
+                                  ? CupertinoIcons.moon_fill
+                                  : CupertinoIcons.sun_max_fill,
                               size: 24.sp,
                               color: Theme.of(
                                 context,

@@ -102,6 +102,8 @@ abstract class  LocaleKeys {
   static const homePage_completedBookings = 'homePage.completedBookings';
   static const homePage_annualTotal = 'homePage.annualTotal';
   static const homePage_annualStatistics = 'homePage.annualStatistics';
+  static const homePage_revenue = 'homePage.revenue';
+  static const homePage_bookings = 'homePage.bookings';
   static const homePage = 'homePage';
   static const bookingPage_title = 'bookingPage.title';
   static const bookingPage_label = 'bookingPage.label';
@@ -121,6 +123,7 @@ abstract class  LocaleKeys {
   static const bookingPage_noBookingsAvailable = 'bookingPage.noBookingsAvailable';
   static const bookingPage_startTime = 'bookingPage.startTime';
   static const bookingPage_endTime = 'bookingPage.endTime';
+  static const bookingPage_serviceImages = 'bookingPage.serviceImages';
   static const bookingPage = 'bookingPage';
   static const profilePage_title = 'profilePage.title';
   static const profilePage_label = 'profilePage.label';
@@ -176,6 +179,8 @@ abstract class  LocaleKeys {
   static const profilePage_themeChangedSuccessfully = 'profilePage.themeChangedSuccessfully';
   static const profilePage_languagesIspeak = 'profilePage.languagesIspeak';
   static const profilePage_message = 'profilePage.message';
+  static const profilePage_profileImage = 'profilePage.profileImage';
+  static const profilePage_dob = 'profilePage.dob';
   static const profilePage = 'profilePage';
   static const myServicesPage_title = 'myServicesPage.title';
   static const myServicesPage_label = 'myServicesPage.label';

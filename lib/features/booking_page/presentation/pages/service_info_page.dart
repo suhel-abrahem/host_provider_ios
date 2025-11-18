@@ -10,6 +10,7 @@ import 'package:hosta_provider/core/resource/common_entity/customer_entity.dart'
 import 'package:hosta_provider/core/resource/common_state_widget/error_state_widget.dart';
 import 'package:hosta_provider/core/resource/common_state_widget/no_data_state_widget.dart';
 import 'package:hosta_provider/core/resource/common_state_widget/no_internet_state_widget.dart';
+import 'package:hosta_provider/core/resource/image_widget.dart';
 import 'package:hosta_provider/core/resource/main_page/main_page.dart';
 import 'package:hosta_provider/features/booking_page/data/models/get_booking_model.dart';
 import 'package:hosta_provider/features/booking_page/domain/entities/booking_entity.dart';
@@ -80,6 +81,185 @@ class _ServiceInfoPageState extends State<ServiceInfoPage> {
                               data?.last?.customer ?? {},
                             ),
                           ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsGeometry.symmetric(
+                            horizontal: 16.0,
+                            vertical: 16.h,
+                          ),
+                          child:
+                              Container(
+                                width: 320.w,
+                                height: 270.h,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 12.h,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      LocaleKeys.bookingPage_serviceImages.tr(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
+                                            fontFamily:
+                                                FontConstants.fontFamily(
+                                                  context.locale,
+                                                ),
+                                          ),
+                                    ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) => Padding(
+                                          padding: EdgeInsetsDirectional.only(
+                                            top: 8.h,
+                                            bottom: 8.h,
+                                            end:
+                                                (data?.last?.images?.length ??
+                                                        0) >
+                                                    1
+                                                ? 16.w
+                                                : 60.w,
+                                            start:
+                                                (data?.last?.images?.length ??
+                                                        0) >
+                                                    1
+                                                ? 0.w
+                                                : 60.w,
+                                          ),
+                                          child: ElevatedButton(
+                                            style: Theme.of(context)
+                                                .elevatedButtonTheme
+                                                .style
+                                                ?.copyWith(
+                                                  padding:
+                                                      WidgetStatePropertyAll(
+                                                        EdgeInsets.zero,
+                                                      ),
+                                                  backgroundColor:
+                                                      WidgetStatePropertyAll(
+                                                        Colors.transparent,
+                                                      ),
+                                                  shadowColor:
+                                                      WidgetStatePropertyAll(
+                                                        Colors.transparent,
+                                                      ),
+                                                  shape: WidgetStatePropertyAll(
+                                                    RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            20.r,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) => Dialog(
+                                                  insetAnimationDuration:
+                                                      const Duration(
+                                                        milliseconds: 300,
+                                                      ),
+                                                  insetAnimationCurve:
+                                                      Curves.easeInOut,
+                                                  clipBehavior: Clip.antiAlias,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          12.r,
+                                                        ),
+                                                    child: ImageWidget(
+                                                      errorWidget: SizedBox(
+                                                        width: 100.w,
+                                                        height: 100.h,
+                                                        child: Center(
+                                                          child: Icon(
+                                                            Icons
+                                                                .broken_image_outlined,
+                                                            size: 50.r,
+                                                            color: Theme.of(
+                                                              context,
+                                                            ).primaryColor,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      imageUrl:
+                                                          data
+                                                              ?.last
+                                                              ?.images?[index]["image_url"] ??
+                                                          "",
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.r),
+                                              clipBehavior: Clip.antiAlias,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .shadow
+                                                          .withOpacity(0.2),
+                                                      blurRadius: 8.r,
+                                                      offset: Offset(0, 4.h),
+                                                    ),
+                                                  ],
+                                                ),
+                                                height: 200.h,
+                                                width: 200.w,
+                                                child: ImageWidget(
+                                                  boxFit: BoxFit.cover,
+                                                  errorWidget: Center(
+                                                    child: Icon(
+                                                      Icons
+                                                          .broken_image_outlined,
+                                                      size: 50.r,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onErrorContainer,
+                                                    ),
+                                                  ),
+                                                  imageUrl:
+                                                      data
+                                                          ?.last
+                                                          ?.images?[index]["image_url"] ??
+                                                      "",
+                                                  height: 200.h,
+                                                  width: 200.w,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        itemCount:
+                                            data?.last?.images?.length ?? 0,
+                                        shrinkWrap: true,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ).asGlass(
+                                frosted: true,
+                                blurX: 8,
+                                blurY: 8,
+                                tintColor: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer
+                                    .withValues(alpha: 0.9),
+                                clipBorderRadius: BorderRadius.circular(12.r),
+                                border: Theme.of(context).defaultBorderSide,
+                              ),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -228,9 +408,8 @@ class _ServiceInfoPageState extends State<ServiceInfoPage> {
                                   return switch (data?.last?.status) {
                                     "pending" => Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        SizedBox(height: 8.h),
                                         SizedBox(
                                           width: 145.w,
                                           child: ElevatedButton(
@@ -344,99 +523,117 @@ class _ServiceInfoPageState extends State<ServiceInfoPage> {
                                         ),
                                       ],
                                     ),
-                                    "confirmed" => SizedBox(
-                                      height: 40.h,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          context.read<SetBookingBloc>().add(
-                                            SetBookingEvent.setBookings(
-                                              getBookingModel: GetBookingModel(
-                                                id: data?.last?.id.toString(),
-                                                status: "start",
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        style: Theme.of(context)
-                                            .elevatedButtonTheme
-                                            .style
-                                            ?.copyWith(
-                                              padding:
-                                                  WidgetStateProperty.resolveWith((
-                                                    callback,
-                                                  ) {
-                                                    if (callback.contains(
-                                                      WidgetState.pressed,
-                                                    )) {
-                                                      return EdgeInsets.symmetric(
-                                                        vertical: 12.h,
-                                                      );
-                                                    }
-                                                    return EdgeInsets.zero;
-                                                  }),
-                                              backgroundColor:
-                                                  WidgetStatePropertyAll(
-                                                    Helper.getColorByStatus(
-                                                      "confirmed",
-                                                      context,
-                                                    )!,
-                                                  ),
-                                            ),
-                                        child: Center(
-                                          child: Text(
-                                            LocaleKeys.bookingPage_startService
-                                                .tr(),
+                                    "confirmed" => Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 40.h,
+                                          width: 300.w,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<SetBookingBloc>()
+                                                  .add(
+                                                    SetBookingEvent.setBookings(
+                                                      getBookingModel:
+                                                          GetBookingModel(
+                                                            id: data?.last?.id
+                                                                .toString(),
+                                                            status: "start",
+                                                          ),
+                                                    ),
+                                                  );
+                                            },
                                             style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge
+                                                .elevatedButtonTheme
+                                                .style
                                                 ?.copyWith(
-                                                  fontFamily:
-                                                      FontConstants.fontFamily(
-                                                        context.locale,
+                                                  padding:
+                                                      WidgetStateProperty.resolveWith((
+                                                        callback,
+                                                      ) {
+                                                        if (callback.contains(
+                                                          WidgetState.pressed,
+                                                        )) {
+                                                          return EdgeInsets.symmetric(
+                                                            vertical: 12.h,
+                                                          );
+                                                        }
+                                                        return EdgeInsets.zero;
+                                                      }),
+                                                  backgroundColor:
+                                                      WidgetStatePropertyAll(
+                                                        Helper.getColorByStatus(
+                                                          "confirmed",
+                                                          context,
+                                                        )!,
                                                       ),
                                                 ),
+                                            child: Center(
+                                              child: Text(
+                                                LocaleKeys
+                                                    .bookingPage_startService
+                                                    .tr(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelLarge
+                                                    ?.copyWith(
+                                                      fontFamily:
+                                                          FontConstants.fontFamily(
+                                                            context.locale,
+                                                          ),
+                                                    ),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                     "in_progress" => SizedBox(
                                       height: 40.h,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          context.read<SetBookingBloc>().add(
-                                            SetBookingEvent.setBookings(
-                                              getBookingModel: GetBookingModel(
-                                                id: data?.last?.id.toString(),
-                                                status: "complete",
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 16.w,
+                                        ),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            context.read<SetBookingBloc>().add(
+                                              SetBookingEvent.setBookings(
+                                                getBookingModel:
+                                                    GetBookingModel(
+                                                      id: data?.last?.id
+                                                          .toString(),
+                                                      status: "complete",
+                                                    ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                        style: Theme.of(context)
-                                            .elevatedButtonTheme
-                                            .style
-                                            ?.copyWith(
-                                              backgroundColor:
-                                                  WidgetStatePropertyAll(
-                                                    Helper.getColorByStatus(
-                                                      "in_progress",
-                                                      context,
-                                                    )!,
+                                            );
+                                          },
+                                          style: Theme.of(context)
+                                              .elevatedButtonTheme
+                                              .style
+                                              ?.copyWith(
+                                                backgroundColor:
+                                                    WidgetStatePropertyAll(
+                                                      Helper.getColorByStatus(
+                                                        "in_progress",
+                                                        context,
+                                                      )!,
+                                                    ),
+                                              ),
+                                          child: Center(
+                                            child: Text(
+                                              LocaleKeys
+                                                  .bookingPage_finishService
+                                                  .tr(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(
+                                                    fontFamily:
+                                                        FontConstants.fontFamily(
+                                                          context.locale,
+                                                        ),
                                                   ),
                                             ),
-                                        child: Center(
-                                          child: Text(
-                                            LocaleKeys.bookingPage_finishService
-                                                .tr(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  fontFamily:
-                                                      FontConstants.fontFamily(
-                                                        context.locale,
-                                                      ),
-                                                ),
                                           ),
                                         ),
                                       ),
