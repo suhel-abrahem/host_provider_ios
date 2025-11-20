@@ -88,8 +88,8 @@ class UserInfoContainerWidget extends StatelessWidget {
       ),
     ).asGlass(
       frosted: true,
-      blurX: 8,
-      blurY: 8,
+      blurX: 58,
+      blurY: 58,
       tintColor: Theme.of(
         context,
       ).colorScheme.primaryContainer.withValues(alpha: 0.9),

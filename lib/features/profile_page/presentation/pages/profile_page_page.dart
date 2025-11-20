@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -126,8 +127,10 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                               vertical: 4.h,
                             ),
                             child: Icon(
-                              Icons.account_circle_outlined,
-                              color: Theme.of(context).primaryColor,
+                              CupertinoIcons.person_crop_circle,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.labelLarge?.color,
                               size: 24.r,
                             ),
                           ).asGlass(
@@ -179,8 +182,8 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                       ),
                     ).asGlass(
                       frosted: true,
-                      blurX: 8,
-                      blurY: 8,
+                      blurX: 38,
+                      blurY: 38,
                       tintColor: Theme.of(
                         context,
                       ).colorScheme.primaryContainer.withValues(alpha: 0.9),
@@ -215,8 +218,10 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                               vertical: 4.h,
                             ),
                             child: Icon(
-                              Icons.settings_outlined,
-                              color: Theme.of(context).primaryColor,
+                              CupertinoIcons.settings_solid,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.labelLarge?.color,
                               size: 24.r,
                             ),
                           ).asGlass(
@@ -302,8 +307,10 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                               vertical: 4.h,
                             ),
                             child: Icon(
-                              Icons.help_outline,
-                              color: Theme.of(context).primaryColor,
+                              CupertinoIcons.question_circle,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.labelLarge?.color,
                               size: 24.r,
                             ),
                           ).asGlass(
