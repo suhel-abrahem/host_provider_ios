@@ -5,15 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hosta_provider/config/theme/app_theme.dart';
-import 'package:hosta_provider/core/resource/common_entity/addresses_entity.dart';
-import 'package:hosta_provider/core/resource/common_state_widget/no_data_state_widget.dart';
-import 'package:hosta_provider/core/resource/common_state_widget/no_internet_state_widget.dart';
-import 'package:hosta_provider/core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
-import 'package:hosta_provider/core/resource/main_page/main_page.dart';
-import 'package:hosta_provider/core/util/helper/helper.dart';
-import 'package:hosta_provider/features/login_page/domain/entities/login_state_entity.dart';
-import 'package:hosta_provider/features/profile_page/presentation/widgets/user_info_container_widget.dart';
+import '../../../../config/theme/app_theme.dart';
+import '../../../../core/resource/common_entity/addresses_entity.dart';
+import '../../../../core/resource/common_state_widget/no_data_state_widget.dart';
+import '../../../../core/resource/common_state_widget/no_internet_state_widget.dart';
+import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
+import '../../../../core/resource/main_page/main_page.dart';
+import '../../../../core/util/helper/helper.dart';
+import '../../../login_page/domain/entities/login_state_entity.dart';
+import '../widgets/user_info_container_widget.dart';
 
 import '../../../../config/app/app_preferences.dart';
 import '../../../../config/route/routes_manager.dart';
@@ -127,7 +127,7 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                               vertical: 4.h,
                             ),
                             child: Icon(
-                              CupertinoIcons.person_crop_circle,
+                              CupertinoIcons.person,
                               color: Theme.of(
                                 context,
                               ).textTheme.labelLarge?.color,
@@ -182,8 +182,8 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                       ),
                     ).asGlass(
                       frosted: true,
-                      blurX: 38,
-                      blurY: 38,
+                      blurX: 8,
+                      blurY: 8,
                       tintColor: Theme.of(
                         context,
                       ).colorScheme.primaryContainer.withValues(alpha: 0.9),
@@ -218,7 +218,7 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                               vertical: 4.h,
                             ),
                             child: Icon(
-                              CupertinoIcons.settings_solid,
+                              CupertinoIcons.settings,
                               color: Theme.of(
                                 context,
                               ).textTheme.labelLarge?.color,
@@ -379,7 +379,6 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                       ..add(GetProfileEvent.started()),
                 child: BlocListener<GetProfileBloc, GetProfileState>(
                   listener: (context, state) {
-                    print("logout state: $state");
                     if (state is GetProfileStateLoggedOut) {
                       getItInstance<AppPreferences>().setUserInfo(
                         loginStateEntity: LoginStateEntity(),
@@ -431,7 +430,7 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                                       vertical: 4.h,
                                     ),
                                     child: Icon(
-                                      Icons.logout_outlined,
+                                      CupertinoIcons.arrow_right_circle,
                                       color: Theme.of(
                                         context,
                                       ).colorScheme.error,

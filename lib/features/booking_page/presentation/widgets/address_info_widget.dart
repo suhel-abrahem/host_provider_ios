@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
-import 'package:hosta_provider/config/theme/app_theme.dart';
-import 'package:hosta_provider/core/constants/font_constants.dart';
-import 'package:hosta_provider/core/resource/common_entity/addresses_entity.dart';
-import 'package:hosta_provider/generated/locale_keys.g.dart';
+import '../../../../config/theme/app_theme.dart';
+import '../../../../core/constants/font_constants.dart';
+import '../../../../core/resource/common_entity/addresses_entity.dart';
+import '../../../../generated/locale_keys.g.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AddressInfoWidget extends StatelessWidget {
@@ -30,7 +31,7 @@ class AddressInfoWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
-                Icons.location_on,
+                CupertinoIcons.location_solid,
                 color: Theme.of(context).colorScheme.error,
               ),
               Padding(

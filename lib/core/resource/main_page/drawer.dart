@@ -6,12 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hosta_provider/config/app/app_preferences.dart';
-import 'package:hosta_provider/core/dependencies_injection.dart';
-import 'package:hosta_provider/core/resource/image_widget.dart';
-import 'package:hosta_provider/core/resource/main_page/drawer_button.dart';
-import 'package:hosta_provider/features/profile_page/domain/entities/profile_entity.dart';
-import 'package:hosta_provider/generated/locale_keys.g.dart';
+import '../../../config/app/app_preferences.dart';
+import '../../dependencies_injection.dart';
+import '../image_widget.dart';
+import 'drawer_button.dart';
+import '../../../features/profile_page/domain/entities/profile_entity.dart';
+import '../../../generated/locale_keys.g.dart';
 
 import '../../../config/route/routes_manager.dart';
 import '../../../config/theme/app_theme.dart';
@@ -138,7 +138,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                 child: ImageWidget(
                                   boxFit: BoxFit.cover,
                                   errorWidget: Icon(
-                                    CupertinoIcons.person_crop_circle,
+                                    Icons.account_circle,
                                     size: 60.sp,
                                     color: Theme.of(
                                       context,
@@ -211,7 +211,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: DrawerButtonWidget(
                 selected: currentPath?.endsWith(RoutesPath.categoriesPage),
                 title: LocaleKeys.categoriesPage_title.tr(),
-                icon: CupertinoIcons.square_grid_2x2,
+                icon: CupertinoIcons.square_list,
                 onPressed: () {
                   context.push(RoutesPath.categoriesPage);
                 },
@@ -347,7 +347,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ..add(GetProfileEvent.started()),
                 child: BlocListener<GetProfileBloc, GetProfileState>(
                   listener: (context, state) {
-                    print("logout state: $state");
                     if (state is GetProfileStateLoggedOut) {
                       getItInstance<AppPreferences>().setUserInfo(
                         loginStateEntity: LoginStateEntity(),
@@ -365,8 +364,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   child: Builder(
                     builder: (context) {
                       return DrawerButtonWidget(
+                        color: Theme.of(context).colorScheme.error,
                         title: LocaleKeys.profilePage_logout.tr(),
-                        icon: Icons.logout_outlined,
+                        icon: CupertinoIcons.arrow_right_circle,
                         onPressed: () {
                           context.read<GetProfileBloc>().add(
                             GetProfileEvent.logout(

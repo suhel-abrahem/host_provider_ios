@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,23 +6,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hosta_provider/config/route/routes_manager.dart';
-import 'package:hosta_provider/config/theme/app_theme.dart';
-import 'package:hosta_provider/core/constants/api_constant.dart';
-import 'package:hosta_provider/core/constants/font_constants.dart';
-import 'package:hosta_provider/core/dependencies_injection.dart';
-import 'package:hosta_provider/core/resource/common_entity/service_entity.dart';
-import 'package:hosta_provider/core/resource/image_widget.dart';
-import 'package:hosta_provider/features/my_services_page/presentation/widgets/add_button_my_service.dart';
-import 'package:hosta_provider/generated/locale_keys.g.dart';
+import 'package:hosta_provider/core/util/helper/helper.dart';
+import '../../../../config/route/routes_manager.dart';
+import '../../../../config/theme/app_theme.dart';
+import '../../../../core/constants/api_constant.dart';
+import '../../../../core/constants/font_constants.dart';
+import '../../../../core/dependencies_injection.dart';
+import '../../../../core/resource/common_entity/service_entity.dart';
+import '../../../../core/resource/image_widget.dart';
+import 'add_button_my_service.dart';
+import '../../../../generated/locale_keys.g.dart';
 
 import '../../../../core/resource/common_entity/service_error_entity.dart';
 import '../../../../core/resource/custom_widget/custom_input_field/custom_input_field.dart';
 import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
-import '../../../category_services_page/data/models/service_model.dart';
 import '../../../category_services_page/data/models/set_service_model.dart';
 import '../../../category_services_page/presentation/bloc/set_service_bloc.dart';
-import '../../../category_services_page/presentation/widgets/add_button.dart';
 
 class MyServiceWidget extends StatefulWidget {
   final ServiceEntity? serviceEntity;
@@ -49,24 +47,13 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
     setServiceModel = setServiceModel?.copyWith(
       serviceModel: setServiceModel?.serviceModel?.copyWith(
         price: widget.serviceEntity?.price,
-        duration_minutes: widget.serviceEntity?.duration_minutes.toString(),
-        buffer_minutes: widget.serviceEntity?.buffer_minutes.toString(),
+        duration_minutes: widget.serviceEntity?.duration_minutes,
+        buffer_minutes: widget.serviceEntity?.buffer_minutes,
         notes: widget.serviceEntity?.notes,
         is_active: widget.serviceEntity?.is_active,
       ),
     );
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant MyServiceWidget oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -79,7 +66,6 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
         builder: (context) {
           return BlocListener<SetServiceBloc, SetServiceState>(
             listener: (context, state) {
-              print("ez state : $state");
               if (state is SetServiceStateAdded) {
                 showMessage(
                   message: LocaleKeys.common_success.tr(),
@@ -201,16 +187,19 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                 ),
                               ),
                             ),
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                "${widget.serviceEntity?.price} ${LocaleKeys.myServicesPage_iqd.tr()}",
-                                style: Theme.of(context).textTheme.labelLarge
-                                    ?.copyWith(
-                                      fontFamily: FontConstants.fontFamily(
-                                        context.locale,
+                            SizedBox(
+                              width: 80.w,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  "${Helper.formatPrice(widget.serviceEntity?.price)} ${LocaleKeys.myServicesPage_iqd.tr()}",
+                                  style: Theme.of(context).textTheme.labelLarge
+                                      ?.copyWith(
+                                        fontFamily: FontConstants.fontFamily(
+                                          context.locale,
+                                        ),
                                       ),
-                                    ),
+                                ),
                               ),
                             ),
                           ],
@@ -234,7 +223,7 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                   .primaryContainer
                                   .withValues(alpha: 0.9),
                               icon: Icon(
-                                Icons.more_vert,
+                                CupertinoIcons.ellipsis_circle,
                                 color: Theme.of(
                                   context,
                                 ).textTheme.labelLarge?.color,
@@ -273,9 +262,6 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                                 ?.copyWith(is_active: false),
                                           );
                                     }
-                                    print(
-                                      "from Add:${setServiceModel?.serviceModel}",
-                                    );
                                     context.read<SetServiceBloc>().add(
                                       SetServiceEvent.update(setServiceModel),
                                     );
@@ -307,9 +293,6 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                                 ?.copyWith(is_active: false),
                                           );
                                     }
-                                    print(
-                                      "from Add:${setServiceModel?.serviceModel}",
-                                    );
                                     context.read<SetServiceBloc>().add(
                                       SetServiceEvent.delete(setServiceModel),
                                     );
@@ -320,7 +303,7 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                   value: 'edit',
                                   child: Row(
                                     children: [
-                                      const Icon(CupertinoIcons.pencil_circle),
+                                      Icon(CupertinoIcons.pencil_circle,color: Theme.of(context).textTheme.labelLarge?.color,),
 
                                       Padding(
                                         padding: EdgeInsets.symmetric(
@@ -328,6 +311,15 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                         ),
                                         child: Text(
                                           LocaleKeys.myServicesPage_edit.tr(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
+                                                fontFamily:
+                                                    FontConstants.fontFamily(
+                                                  context.locale,
+                                                ),
+                                              ),
                                         ),
                                       ),
                                     ],
@@ -337,7 +329,7 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                   value: 'toggle',
                                   child: Row(
                                     children: [
-                                      const Icon(CupertinoIcons.power),
+                                      Icon(CupertinoIcons.power,color: Theme.of(context).textTheme.labelLarge?.color,),
                                       const SizedBox(width: 8),
                                       Padding(
                                         padding: EdgeInsets.symmetric(
@@ -346,6 +338,15 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                         child: Text(
                                           LocaleKeys.myServicesPage_toggleStatus
                                               .tr(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
+                                                fontFamily:
+                                                    FontConstants.fontFamily(
+                                                  context.locale,
+                                                ),
+                                              ),
                                         ),
                                       ),
                                     ],
@@ -366,6 +367,18 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                                         ),
                                         child: Text(
                                           LocaleKeys.myServicesPage_delete.tr(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
+                                                fontFamily:
+                                                    FontConstants.fontFamily(
+                                                  context.locale,
+                                                ),
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error,
+                                              ),
                                         ),
                                       ),
                                     ],
@@ -450,15 +463,17 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsetsGeometry.symmetric(vertical: 8.h),
+                    padding: EdgeInsetsGeometry.symmetric(vertical: 16.h),
                     child: CustomInputField(
                       label: LocaleKeys.categoryServices_durationInMinutes.tr(),
-                      initialValue:
-                          setServiceModel?.serviceModel?.buffer_minutes,
+                      initialValue: setServiceModel
+                          ?.serviceModel
+                          ?.duration_minutes
+                          .toString(),
                       onChanged: (value) {
                         setServiceModel = setServiceModel?.copyWith(
                           serviceModel: setServiceModel?.serviceModel?.copyWith(
-                            duration_minutes: value,
+                            duration_minutes: int.tryParse(value),
                           ),
                         );
                         setState(() {});
@@ -484,11 +499,12 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                   ),
                   CustomInputField(
                     label: LocaleKeys.categoryServices_bufferInMinutes.tr(),
-                    initialValue: setServiceModel?.serviceModel?.buffer_minutes,
+                    initialValue: setServiceModel?.serviceModel?.buffer_minutes
+                        .toString(),
                     onChanged: (value) {
                       setServiceModel = setServiceModel?.copyWith(
                         serviceModel: setServiceModel?.serviceModel?.copyWith(
-                          buffer_minutes: value,
+                          buffer_minutes: int.tryParse(value),
                         ),
                       );
                       setState(() {});
@@ -512,7 +528,7 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsetsGeometry.symmetric(vertical: 8.h),
+                    padding: EdgeInsetsGeometry.symmetric(vertical: 16.h),
                     child: CustomInputField(
                       label: LocaleKeys.categoryServices_notes.tr(),
                       isRequired: false,
@@ -589,7 +605,6 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                       ),
                     );
                   }
-                  print("from Add:${setServiceModel?.serviceModel}");
                   context.read<SetServiceBloc>().add(
                     SetServiceEvent.update(setServiceModel),
                   );
@@ -624,9 +639,7 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                     ),
                   ),
                   onPressed: () {
-                    setServiceModel = setServiceModel?.copyWith(
-                      serviceModel: ServiceModel(),
-                    );
+                    setServiceModel = setServiceModel?.copyWith();
                     dialogContext.pop();
                   },
                   child: Text(

@@ -9,12 +9,13 @@ class DrawerButtonWidget extends StatelessWidget {
   final IconData? icon;
   final VoidCallback? onPressed;
   final bool? selected;
+  final Color? color;
   const DrawerButtonWidget({
     super.key,
     this.title,
     this.icon,
     this.onPressed,
-     this.selected,
+     this.selected, this.color,
   });
 
   @override
@@ -54,12 +55,12 @@ class DrawerButtonWidget extends StatelessWidget {
                 children: [
                   Icon(
                     icon,
-                    color: (selected ?? false)
+                    color:color?? ((selected ?? false)
                                 ? Theme.of(context).colorScheme.primary
                                 : Theme.of(context)
                                     .textTheme
                                     .labelLarge
-                                    ?.color,
+                                    ?.color),
                     size: 24.sp,
                   ),
                   Padding(

@@ -1,13 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
-import 'package:hosta_provider/config/theme/app_theme.dart';
+import '../../../../config/theme/app_theme.dart';
 
-import 'package:hosta_provider/core/constants/font_constants.dart';
-import 'package:hosta_provider/core/resource/common_entity/customer_entity.dart';
-import 'package:hosta_provider/core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
+import '../../../../core/constants/font_constants.dart';
+import '../../../../core/resource/common_entity/customer_entity.dart';
+import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
+import '../../../../core/resource/image_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../generated/locale_keys.g.dart';
@@ -34,14 +35,17 @@ class ClientInfoWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CircleAvatar(
-                radius: 30.r,
-                child: CachedNetworkImage(
-                  imageUrl: customerEntity?.avatar ?? "",
-                  fit: BoxFit.cover,
-                  progressIndicatorBuilder: (context, url, progress) =>
-                      CircularProgressIndicator(value: progress.progress),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+              ClipOval(
+                child: CircleAvatar(
+                  radius: 30.r,
+                  child: ImageWidget(
+                    errorWidget: Icon(
+                      CupertinoIcons.person_crop_circle,
+                      size: 60.sp,
+                      color: Theme.of(context).textTheme.labelLarge?.color,
+                    ),
+                    imageUrl: customerEntity?.avatar ?? "",
+                  ),
                 ),
               ),
               Column(
@@ -92,6 +96,11 @@ class ClientInfoWidget extends StatelessWidget {
                     padding: WidgetStatePropertyAll(EdgeInsets.zero),
                     backgroundColor: WidgetStatePropertyAll(Colors.transparent),
                     shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100.r),
+                      ),
+                    ),
                   ),
                   child:
                       Container(
@@ -101,8 +110,8 @@ class ClientInfoWidget extends StatelessWidget {
                         ),
 
                         child: Icon(
-                          Icons.phone,
-                          color: Colors.green,
+                          CupertinoIcons.phone_fill,
+                          color: const Color.fromARGB(255, 32, 152, 36),
                           size: 22.sp,
                         ),
                       ).asGlass(
@@ -112,7 +121,7 @@ class ClientInfoWidget extends StatelessWidget {
                         tintColor: Theme.of(
                           context,
                         ).colorScheme.primaryContainer.withValues(alpha: 0.9),
-                        clipBorderRadius: BorderRadius.circular(12.r),
+                        clipBorderRadius: BorderRadius.circular(100.r),
                         border: Theme.of(context).defaultBorderSide,
                       ),
                 ),

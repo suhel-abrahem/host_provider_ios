@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hosta_provider/generated/locale_keys.g.dart';
+import '../../../generated/locale_keys.g.dart';
 
 import '../../../config/route/routes_manager.dart';
 
@@ -67,14 +67,14 @@ class _MainBottomBarState extends State<MainBottomBar> {
           tooltip: LocaleKeys.homePage_title.tr(),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(CupertinoIcons.calendar_today),
-          activeIcon: const Icon(Icons.calendar_today),
+          icon: const Icon(CupertinoIcons.calendar),
+          activeIcon: const Icon(CupertinoIcons.calendar),
           label: LocaleKeys.bookingPage_label.tr(),
           tooltip: LocaleKeys.bookingPage_title.tr(),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(CupertinoIcons.square_grid_2x2),
-          activeIcon: const Icon(CupertinoIcons.square_grid_2x2),
+          icon: const Icon(CupertinoIcons.square_list),
+          activeIcon: const Icon(CupertinoIcons.square_list),
           label: LocaleKeys.myServicesPage_label.tr(),
           tooltip: LocaleKeys.myServicesPage_title.tr(),
         ),
